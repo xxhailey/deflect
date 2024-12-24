@@ -145,8 +145,17 @@ function Download-Artifact($artifactSlug, $artifactInfo, $destinationFileName) {
     }
 
     # Trim whitespace and convert to lower case for comparison
-    $storedVersionHash = $storedVersionHash.Trim().ToLower()
-    $versionHash = $versionHash.Trim().ToLower()
+    if ($storedVersionHash) {
+        $storedVersionHash = $storedVersionHash.Trim().ToLower()
+    } else {
+        $storedVersionHash = ""
+    }
+
+    if ($versionHash) {
+        $versionHash = $versionHash.Trim().ToLower()
+    } else {
+        $versionHash = ""
+    }
 
     if ($debug_mode -eq 1) {
         Write-Host "[DEBUG] Stored version hash for ${artifactSlug}: '$storedVersionHash'" -ForegroundColor Cyan
