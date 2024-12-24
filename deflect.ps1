@@ -348,7 +348,7 @@ function HandleKdmapperErrors {
         Write-Host
         Write-Host "  Error: KDMapper returned an error" -ForegroundColor Red
         #Write-Host "  Read the wiki: wiki.valth.run" -ForegroundColor Yellow
-        Write-Host "  or join discord.gg/ecKbpAPW5T for help" -ForegroundColor Yellow
+        #Write-Host "  or join discord.gg/ecKbpAPW5T for help" -ForegroundColor Yellow
         Write-Host
         Write-Host "  KDMapper output:" -ForegroundColor White
         Write-Host $fileContent -ForegroundColor Red
