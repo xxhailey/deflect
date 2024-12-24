@@ -212,7 +212,7 @@ function DownloadAndExtractFiles {
     $artifactFileNames = @{
         'driver-interface-kernel' = 'driver_interface_kernel.dll'
         'cs2-overlay' = 'controller.exe'
-        'kernel-driver' = 'deflect-driver.sys'
+        'kernel-driver' = 'valthrun-driver.sys'
     }
 
     # Hashtable to store artifactInfo
@@ -239,7 +239,7 @@ function DownloadAndExtractFiles {
 
     if ($debug_mode -eq 1) {
         Write-Host "[DEBUG] Final file verification:" -ForegroundColor Cyan
-        $files = 'controller.exe', 'deflect-driver.sys', 'kdmapper.exe'
+        $files = 'controller.exe', 'valthrun-driver.sys', 'kdmapper.exe'
         Get-ChildItem -Path $scriptDir | Where-Object { $files -contains $_.Name } | ForEach-Object {
             Write-Host $_.Name -ForegroundColor Green
         }
@@ -282,7 +282,7 @@ function MapDriver {
     LogMessage "Adding Windows Defender exclusion for kdmapper"
     
     $kdmapperPath = Join-Path $scriptDir "kdmapper.exe"
-    $driverPath = Join-Path $scriptDir "deflect-driver.sys"
+    $driverPath = Join-Path $scriptDir "valthrun-driver.sys"
     
     try {
         Add-MpPreference -ExclusionPath $kdmapperPath -ErrorAction SilentlyContinue
