@@ -115,6 +115,14 @@ switch ($firstArg) {
 function Get-LatestArtifactVersion($artifactSlug) {
     if ($debug_mode -eq 1) { Write-Host "[DEBUG] Getting latest version info for artifact: $artifactSlug" -ForegroundColor Cyan }
     try {
+
+        $artifactInfoUrl = "https://valth.run/api/artifacts/$artifactSlug"
+        $artifactInfo = Invoke-RestMethod -Uri $artifactInfoUrl
+        $trackId = $artifactInfo.artifact.defaultTrack
+        $versionsInfoUrl = "https://valth.run/api/artifacts/$artifactSlug/$trackId"
+        $versionsInfo = Invoke-RestMethod -Uri $versionsInfoUrl
+        $latestVersion = $versionsInfo.versions | Sort-Object -Property timestamp -Descending | Select-Object -First 1
+
         return @{
             versionId = $latestVersion.id
             versionHash = $latestVersion.versionHash
