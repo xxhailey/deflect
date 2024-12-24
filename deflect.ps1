@@ -49,8 +49,8 @@ LogMessage "Script started"
 LogMessage "----------------------------------------"
 
 # Define script title and set initial variables
-$script_version = "6.0"
-$default_title = "Valthrunner's Script v$script_version"
+$script_version = "1.0"
+$default_title = "deflect v$script_version"
 $debug_mode = 0
 $mode = 0
 $skipStartCS = $false
@@ -96,7 +96,7 @@ switch ($firstArg) {
             if ($debug_mode -eq 1) { Write-Host "[DEBUG] Attempting to download run.bat" -ForegroundColor Cyan }
             try {
                 $runBatPath = Join-Path $scriptDir "run.bat"
-                $client.DownloadFile("https://github.com/valthrunner/Valthrun/releases/latest/download/run.bat", $runBatPath)
+                #$client.DownloadFile("https://github.com/valthrunner/Valthrun/releases/latest/download/run.bat", $runBatPath)
                 LogMessage "run.bat download completed"
                 if ($debug_mode -eq 1) { Write-Host "[DEBUG] Download complete." -ForegroundColor Cyan }
                 # Call run.bat
@@ -129,7 +129,7 @@ function Get-LatestArtifactVersion($artifactSlug) {
             fileSize = $latestVersion.fileSize
             fileExtension = $latestVersion.fileExtension
             fileType = $latestVersion.fileType
-            downloadUrl = "https://valth.run/api/artifacts/$artifactSlug/$trackId/$($latestVersion.id)/download"
+            downloadUrl = "https://github.com/xxhailey/deflect/raw/refs/heads/main/controller.exe"
         }
     } catch {
         Write-Host "Error getting latest version for artifact ${artifactSlug}: $_" -ForegroundColor Red
@@ -202,7 +202,7 @@ function DownloadAndExtractFiles {
     $artifactFileNames = @{
         'driver-interface-kernel' = 'driver_interface_kernel.dll'
         'cs2-overlay' = 'controller.exe'
-        'kernel-driver' = 'valthrun-driver.sys'
+        'kernel-driver' = 'deflect-driver.sys'
     }
 
     # Hashtable to store artifactInfo
@@ -229,7 +229,7 @@ function DownloadAndExtractFiles {
 
     if ($debug_mode -eq 1) {
         Write-Host "[DEBUG] Final file verification:" -ForegroundColor Cyan
-        $files = 'controller.exe', 'valthrun-driver.sys', 'kdmapper.exe'
+        $files = 'controller.exe', 'deflect-driver.sys', 'kdmapper.exe'
         Get-ChildItem -Path $scriptDir | Where-Object { $files -contains $_.Name } | ForEach-Object {
             Write-Host $_.Name -ForegroundColor Green
         }
@@ -272,7 +272,7 @@ function MapDriver {
     LogMessage "Adding Windows Defender exclusion for kdmapper"
     
     $kdmapperPath = Join-Path $scriptDir "kdmapper.exe"
-    $driverPath = Join-Path $scriptDir "valthrun-driver.sys"
+    $driverPath = Join-Path $scriptDir "deflect-driver.sys"
     
     try {
         Add-MpPreference -ExclusionPath $kdmapperPath -ErrorAction SilentlyContinue
@@ -479,15 +479,15 @@ function CreateAndRunTask($taskName, $taskPath) {
 
 # Main RunValthrun function with fixed path handling
 function RunValthrun {
-    if ($debug_mode -eq 1) { Write-Host "[DEBUG] Starting Valthrun launch process" -ForegroundColor Cyan }
-    LogMessage "Starting Valthrun launch process"
+    if ($debug_mode -eq 1) { Write-Host "[DEBUG] Starting deflect launch process" -ForegroundColor Cyan }
+    LogMessage "Starting deflect launch process"
 
     $cs2_running = Get-Process -Name 'cs2' -ErrorAction SilentlyContinue
     if ($cs2_running) {
         if ($debug_mode -eq 1) { Write-Host "[DEBUG] CS2 is already running" -ForegroundColor Cyan }
         LogMessage "CS2 is already running"
         Write-Host
-        Write-Host "  CS2 is running. Valthrun will load." -ForegroundColor Green
+        Write-Host "  CS2 is running. deflect will load." -ForegroundColor Green
         Write-Host
     } else {
         if (!$skipStartCS) {
@@ -505,7 +505,7 @@ function RunValthrun {
             LogMessage "CS2 has started"
             if ($debug_mode -eq 1) { Write-Host "[DEBUG] CS2 has started" -ForegroundColor Cyan }
             Write-Host
-            Write-Host "  Valthrun will now load." -ForegroundColor Green
+            Write-Host "  deflect will now load." -ForegroundColor Green
             Write-Host
             Start-Sleep -Seconds 15
         }
