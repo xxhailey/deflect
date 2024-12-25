@@ -96,7 +96,6 @@ switch ($firstArg) {
             if ($debug_mode -eq 1) { Write-Host "[DEBUG] Attempting to download run.bat" -ForegroundColor Cyan }
             try {
                 $runBatPath = Join-Path $scriptDir "run.bat"
-                #$client.DownloadFile("https://github.com/valthrunner/Valthrun/releases/latest/download/run.bat", $runBatPath)
                 LogMessage "run.bat download completed"
                 if ($debug_mode -eq 1) { Write-Host "[DEBUG] Download complete." -ForegroundColor Cyan }
                 # Call run.bat
@@ -235,7 +234,7 @@ function DownloadAndExtractFiles {
     Write-Host "  Downloading additional components..." -ForegroundColor White
     LogMessage "Downloading kdmapper"
     if ($debug_mode -eq 1) { Write-Host "[DEBUG] Downloading kdmapper" -ForegroundColor Cyan }
-    DownloadFile "https://github.com/valthrunner/Valthrun/releases/latest/download/kdmapper.exe" "kdmapper.exe"
+    
 
     if ($debug_mode -eq 1) {
         Write-Host "[DEBUG] Final file verification:" -ForegroundColor Cyan
@@ -487,8 +486,8 @@ function CreateAndRunTask($taskName, $taskPath) {
     }
 }
 
-# Main RunValthrun function with fixed path handling
-function RunValthrun {
+
+function Rundeflect {
     if ($debug_mode -eq 1) { Write-Host "[DEBUG] Starting deflect launch process" -ForegroundColor Cyan }
     LogMessage "Starting deflect launch process"
 
@@ -575,7 +574,7 @@ function RunValthrun {
 # Main Execution
 DownloadAndExtractFiles
 MapDriver
-RunValthrun
+Rundeflect
 
 # Dispose of WebClient
 $client.Dispose()
